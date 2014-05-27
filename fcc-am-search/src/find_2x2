@@ -1,0 +1,47 @@
+#!/usr/bin/ruby
+
+
+active = {}
+File.open('active').each_line do |line|
+  active[line.chomp] = true
+end
+
+# try A[A-L]#A
+['A'].each do |a|
+  ('A' .. 'K').each do |b|
+    next if b == 'H'
+    next if b == 'L'
+    next if b == 'P'
+    ('0' .. '9').each do |c|
+      ('A' .. 'Z').each do |d|
+        ('A' .. 'Z').each do |e|
+          sign = [a,b,c,d,e].join
+	  unless active[sign]
+	    puts sign
+	  end
+        end
+      end
+    end
+  end
+end
+
+# try rest of 2x1
+['K','N','W'].each do |a|
+  ('A' .. 'Z').each do |b|
+    next if b == 'H'
+    next if b == 'L'
+    next if b == 'P'
+    ('0' .. '9').each do |c|
+      ('A' .. 'Z').each do |d|
+        ('A' .. 'Z').each do |e|
+        sign = [a,b,c,d,e].join
+	  unless active[sign]
+	    puts sign
+	  end
+        end
+      end
+    end
+  end
+end
+
+

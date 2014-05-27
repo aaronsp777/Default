@@ -1,0 +1,10 @@
+1: "SC"=>60252 Special Conditions
+2: many: 60168 licKey
+5: many: 60166 Call Sign
+6: "P"=>60188 ""=>64
+7: "999"=>57956 "4020"=>2296
+
+Examples:
+999: "LICENSE CLASS CONVERTED PER 97.21a3"
+4020:  "Grant of the request to update licensee name is conditioned on it not reflecting an assignment or transfer of control (see Rule 1.948); if an assignment or transfer occurred without proper notification or FCC approval, the grant is void and the station is licensed under the prior name. "
+

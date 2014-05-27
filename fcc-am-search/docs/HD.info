@@ -1,0 +1,22 @@
+1: "HD" Always (1208005 lines)
+2: licKey as in http://wireless2.fcc.gov/UlsApp/UlsSearch/license.jsp?licKey=
+3: many: 1107937 "File Number" [latest] (not FRN) - (49 had dups, 100020 nulls)
+5: many: 1175917 - Callsign (30209 callsigns had dups, 32088 dups)
+   Note that a given callsign may show up 0 or 1 times in Active, Expired, Terminated
+   or 0 to many times in Canceled.  (Example NO5R has one Expired, One Active, and 8 Canceled)
+6: "A"=>778992 "E"=>283661 "C"=>144776 "T"=>576 Status (Active, Expired, Canceled, Terminated)
+7: "HA"=>1085057 "HV"=>122948 Radio Service (Amateur, Vanity)
+8: many: 6362 Grant MM/DD/YYYY
+9: many: 7296 Expiration MM/DD/YYYY
+10: many: 6204 Cancellation MM/DD/YYYY (usually present for status!=A)
+29: "N" Always
+31: many: 37376 Firstname
+32: many: 58 Middle
+33: many: 167563 Lastname
+34: many: 231 Suffix (Jr, Sr, III ...)
+35: many: 1991 Title ( -Agent-, Mr., Trustee, Licensee, Individual, Agent - TD, Mr, Self, TRUSTEE ...)
+43: many: 6349 Effective MM/DD/YYYY
+44: many: 4723 Last Modified MM/DD/YYYY
+
+
+two year waiting period after cancellation of a call sign

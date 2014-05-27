@@ -1,0 +1,14 @@
+1: "SF"=>61  Special Conditions (free form?)
+2: many: 61 licKey
+5: many: 61 Call Sign
+6: "P"=>57 "T"=>4  Permanent / Temporary ?
+7: many: 61 - Number?
+8: "1"=>61
+9: many: 54 Special Condition note.
+
+Examples:
+Request for waiver of Section 1.949 granted on MM/DD/YY.  In future, licensee must comply with the Commission's procedures for license renewals.  See Public Notice DA 03-1974 (rel. June 16, 2003).
+THIS LICENSE SUPERSEDES AND REPLACES PREVIOUS LICENSE OF SAME DATE AND CALL SIGN TO CORRECT MAILING ADDRESS. ...
+This license supersedes and replaces license of same date and callsign to correct applicant name. ...
+Voice operation prohibited on 20 Meters until midnight February 1, 2007.
+Suspended until Midnight August 3, 2003.

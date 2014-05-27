@@ -1,0 +1,18 @@
+1: "AM"=>1205743
+2: LicKey
+5: Callsign
+6: Class "E"=>200532 ""=>25407 "T"=>509263 "G"=>255363 "A"=>97603 "P"=>52313 "N"=>64022 " "=>1238
+7: Group "A"=>88446 ""=>7561 "C"=>291751 "D"=>770814 "B"=>47059 "c"=>1 "1"=>1 "a"=>1
+8: Region? 1-13
+9: many: 13007 Trustee/Custodian Call Sign
+10: ""=>472883 "Y"=>9142 "N"=>1467 ?????
+14: Eligibility Code (optional)
+    A="Former Primary Station Holder" (9907)
+    B="Close Relative of Former Holder" (5703)
+    C="Former Club Station Holder", (195)
+    D="Club Station with Consent of Close Relative of Former Holder" (933)
+    E="Primary Station Preference List" (94126)
+    F="Club Station Preference List" (8641)
+16: Former Callsign
+17: Former Class
+18: many: 12563 Trustee/Custodian Name: LAST, FIRST I

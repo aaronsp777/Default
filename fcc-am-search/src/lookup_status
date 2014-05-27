@@ -1,0 +1,70 @@
+#!/usr/bin/ruby
+
+require 'date'
+@hdrecords = Hash.new { |h,k| h[k] = [] }
+
+class HDRecord
+  attr_accessor :licKey, :fileNumber, :callSign, :status, :radioService, :grantDate, :expirationDate, :cancellationDate, :firstname, :middle, :lastname, :suffix, :title, :effectiveDate, :lastModifiedDate
+  def initialize(line)
+    fields = line.split('|')
+    @licKey = fields[1]
+    @fileNumber = fields[2]
+    @callSign = fields[4]
+    @status = fields[5]
+    @radioService = fields[6]
+    @grantDate = fields[7]
+    @expirationDate = fields[8]
+    @cancellationDate = fields[9]
+    @firstname = fields[30]
+    @middle = fields[31]
+    @lastname = fields[32]
+    @suffix = fields[33]
+    @title = fields[34]
+    @effectiveDate = fields[42]
+    @lastModifiedDate = fields[43]
+  end
+
+  def availability
+    if cancellationDate == ""
+      return Date.today
+    end
+    return Date.strptime(cancellationDate, '%m/%d/%Y').next_year.next_year.next_day
+  end
+end
+
+def get_availability(callsign)
+  last = @hdrecords[callsign].map { |r| r.availability }.sort.last
+  if last == nil
+    return Date.today
+  else
+    return last
+  end
+end
+
+# load all the records
+f=File.read("HD.dat")
+f.encode!('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
+f.split("\r\n").each do |line|
+  r = HDRecord.new(line)
+  @hdrecords[r.callSign] << r
+end
+
+# read in all callsigns that are not active
+callsigns = STDIN.readlines.map { |x| x.chomp }
+
+# sort by availability
+callsigns.sort_by! { |c| get_availability(c) }
+
+# start reading stdin
+callsigns.each do |callSign|
+  puts "#{get_availability(callSign)} #{callSign}:"
+  records = @hdrecords[callSign]
+  if records.length > 0
+    records.each do |r|
+      puts "  #{r.status} #{r.cancellationDate} #{r.licKey} #{r.firstname} #{r.middle} #{r.lastname}"
+    end
+  else
+    puts "  NO HISTORY"
+  end
+  puts ""
+end

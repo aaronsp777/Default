@@ -1,0 +1,35 @@
+#!/usr/bin/ruby
+
+class Top
+  def initialize
+    @h = Hash.new { |h,k| h[k] = 0 }
+  end
+
+  def index(val)
+    @h[val]+=1
+  end
+
+  def dump
+    if @h.size > 10
+      return "many: %s" % @h.size
+    elsif @h.keys == [""]
+      return "empty"
+    else
+      @h.map { |x| "%s=>%s" % [x[0].inspect,x[1]]}.join(" ")
+    end 
+  end
+end
+
+@tops = Hash.new { |h,k| h[k] = Top.new }
+f = File.read(ARGV[0])
+f.encode!('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
+f.split("\r\n").each do |line|
+  fields = line.split("\|")
+  0.upto(fields.length()-1) do |x|
+    @tops[x.to_i].index(fields[x])
+  end 
+end
+
+@tops.keys.sort.each do |idx|
+  printf "%d: %s\n", idx + 1, @tops[idx].dump
+end

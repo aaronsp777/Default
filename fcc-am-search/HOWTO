@@ -1,0 +1,15 @@
+
+$ cd src
+$ make download
+$ make active
+$ ./find_1x2 > 1x2
+$ ./lookup_status < 1x2 | tee out
+
+Example to show what licenses are currently in use:
+$ cat active | awk -F'[0-9]' '{sum[length($1) "x" length($2)]++} END {for (i in sum) {print sum[i],i}}' | sort -n
+20113 1x2
+21137 2x1
+58881 2x2
+180566 1x3
+494338 2x3
+

@@ -1,0 +1,20 @@
+1: "EN" All(1208005)
+2: licKey
+5: Callsign
+6: "L" All
+7: many: 837383 L# ?
+8: many: 1038491 Full Name: LAST, FIRST I
+9: many: 50012 First Name
+10: many: 52 Middle
+11: many: 222034 Last Name
+12: many: 220 Suffix (Jr, Sr, III)
+16: many: 937461 Address
+17: many: 44751 City
+18: many: 86 State
+19: many: 145549 Zip
+20: many: 18589 Number?????
+21: many: 57747 Organization / Trustee ?????
+22: many: 107 2-3 digits (most are 000)
+23: many: 837507 FRN
+24: Type "I"=>1180101 "B"=>22952 "M"=>111 "R"=>232
+    (Respectively: "Individual", "Amateur Club", "Military Recreation", "RACES")

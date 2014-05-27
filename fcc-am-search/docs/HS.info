@@ -1,0 +1,18 @@
+1: "HS"=>2681437 (History)
+2: many: 1182625 licKey
+4: many: 1152773 Call Sign
+5: many: 4909 Date
+6: many: 41 History Entry such as:
+
+Examples:
+621260 LIREN License Renewed 
+461145 LIISS License Issued 
+306923 LIAUA Administrative Update Applied 
+283343 LIEXP License Status Set to Expired 
+260709 SYSGRT New Systematic Call Sign Assigned 
+229580 LIMOD License Modified
+188795 LITIN License TIN Added 
+111327 LICAN License Canceled 
+79933 VANGRT License Issued
+51818 LTSFRN FRN Association Letter sent 
+...

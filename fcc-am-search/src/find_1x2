@@ -1,0 +1,21 @@
+#!/usr/bin/ruby
+
+
+active = {}
+File.open('active').each_line do |line|
+  active[line.chomp] = true
+end
+
+# try 1x2
+['K','N','W'].each do |a|
+  ('0' .. '9').each do |b|
+    ('A' .. 'Z').each do |c|
+      ('A' .. 'Z').each do |d|
+        sign = [a,b,c,d].join
+	unless active[sign]
+	  puts sign
+	end
+      end
+    end
+  end
+end

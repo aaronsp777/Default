@@ -1,0 +1,15 @@
+1: "LA"=>979 (Attachments)
+2: many: 626 licKey
+3: many: 619 Call Sign
+4: Type:
+   "P"=>132 Pleading
+   "O"=>98 Other
+   "Q"=>17
+   "L"=>631 Letter
+   "W"=>86 Waiver
+   "C"=>10
+   "K"=>4
+   "N"=>1
+5: many: 232 Description such as "Obituary of Licensee"
+6: many: 234 Date Entered MM/DD/YYYY
+8: "A"=>952 "D"=>27  Accepted/Denied ?
