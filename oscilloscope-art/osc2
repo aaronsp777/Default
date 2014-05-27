@@ -1,0 +1,30 @@
+#!/usr/bin/ruby
+#| sox -t sw -c 2 -r 44100 - osc2.wav
+#
+
+def sendpoint(x,y)
+  payload = [-x,-y].pack "ss"
+  STDOUT.write payload
+end
+
+MIN = -32760
+MAX = 32760
+SAMPLE_RATE = 44100
+
+cycles_per_step = 6.0
+sweeps_per_second = 80
+RATE = SAMPLE_RATE / sweeps_per_second # must be INT
+yfact = cycles_per_step / RATE * 2.0 * Math::PI
+
+1.upto(5 * sweeps_per_second) do |j| # 10 seconds
+  0.upto(RATE-1) do |n|
+    x = (MAX - MIN) * n / RATE + MIN
+    y = Math.sin(n * yfact) * MAX
+    sendpoint x,y
+  end
+  RATE.downto(1) do |n|
+    x = (MAX - MIN) * n / RATE + MIN
+    y = Math.sin(n * yfact) * MAX
+    sendpoint x,y
+  end
+end

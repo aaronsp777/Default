@@ -1,0 +1,28 @@
+#!/usr/bin/ruby
+#| sox -t sb -c 2 -r 8192 - fish.wav
+#
+
+#constants
+sample_rate=8192
+hz = Math::PI * 2.0 / sample_rate
+
+def sendpoint(x,y)
+  payload = [-x,-y].pack "cc"
+  STDOUT.write payload
+end
+
+freq1 = 400.0 * hz
+amp1 = 60.0
+
+freq2 = 600.1 * hz
+amp2 = 60.0
+
+# 10 seconds
+1.upto(sample_rate*10) do |n|
+  x = Math.sin(n * freq1) * amp1
+  y = Math.sin(n * freq2) * amp2
+  sendpoint x,y
+end
+
+
+

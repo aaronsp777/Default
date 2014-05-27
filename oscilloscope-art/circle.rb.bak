@@ -1,0 +1,27 @@
+#!/usr/bin/ruby
+#| sox -t sb - out.wav
+#| sox -t sb -c 2 - out.wav
+#| sox -t sb -c 2 -r 8192 -  stero.wav
+#
+
+#constants
+sample_rate=8192
+hz = Math::PI * 2.0 / sample_rate
+
+
+
+freq1 = 89.3 * hz
+freq2 = 88.7 * hz
+freq3 = 90.3 * hz
+freq4 = 83.9 * hz
+
+amp1 = 100.0
+
+
+# 10 seconds
+1.upto(sample_rate*10) do |n|
+  x = Math.sin(n * freq1) * amp1 *  Math.sin(n * freq3)
+  y = Math.cos(n * freq2) * amp1 *  Math.cos(n * freq4)
+  STDOUT.write [x,y].pack("c*")
+end
+

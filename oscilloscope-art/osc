@@ -1,0 +1,15 @@
+#!/usr/bin/ruby
+#| sox -t sb - out.wav
+#| sox -t sb -c 2 - out.wav
+#| sox -t sb -c 2 -r 8192 -  stero.wav
+#
+
+1.upto(330) do
+  -127.upto(127) do |x|
+    y = Math.sin(x / 12.0 * Math::PI) * 90 - 30
+    STDOUT.write [-x,-y].pack("c*")
+  end
+  # fake blanking by going around viewing window
+  STDOUT.write [-127,-127].pack("c*")
+  STDOUT.write [127,-127].pack("c*")
+end
