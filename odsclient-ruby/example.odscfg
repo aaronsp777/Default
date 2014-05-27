@@ -1,0 +1,11 @@
+# Replace below with your ods username and password.  Note that this file
+# is YAML and is therefor sensative to spacing.
+username: your_ods_username
+password: your_ods_password
+# Lists of hosts below to be updated.  CONNIP means the server will use do
+# the work of determining your external IP address.  Or you can specify a
+# raw IP address if you want.
+hosts:
+  myhost1.ods.org: CONNIP
+  myhost2.ods.org: CONNIP
+  myhost3.ods.org: 2.3.4.5

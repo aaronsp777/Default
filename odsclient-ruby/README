@@ -1,0 +1,24 @@
+Copyright 2011 Aaron Spangler <aaron@spangler.ods.org> under GPL v3.
+
+Yet another ODS client to help keep your dynamic ods dns entries up to date.
+
+Requirements:
+A ruby interpreter installed on your Unix / Linux / MacOS X / FreeBSD system.
+
+Installation:
+1. Copy the provided "example.odscfg" into your home directory and rename it
+to ".odscfg".  Edit the file modify the username, password, and hosts sections.
+
+2. Consider changing the permissions on the file to prevent others from reading
+your ods password.
+
+3. Copy odsclient.rb to wherever you want to run it from.
+
+4. If you want to run it from cron, modify "cfg_file" to point to the full
+location of your config file.
+
+Debugging:
+* If you want to see the packets sent and received, run it like this:
+  $ ruby -d ./odsclient.rb
+
+
