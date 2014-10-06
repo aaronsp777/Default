@@ -30,7 +30,7 @@ $top = Hash.new { |h,k| h[k] = Domain.new(k) }
 def parse_sub_domain(domain)
   l = domain.split('.')
   if l.length <= 2
-    return nil, domain
+    return nil, l.join('.')
   end
   if ['com','org','net','int','edu','gov','mil'].include? l[-1]
     return l[0..-3].join('.'), l[-2..-1].join('.')
