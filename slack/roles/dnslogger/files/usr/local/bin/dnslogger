@@ -9,7 +9,7 @@ def log(client, line)
   if !Dir.exists?(dirname)
     Dir.mkdir(dirname)
   end
-  File.open(client, "a") do |f|
+  File.open(filename, "a") do |f|
     f.puts(line)
   end
 end
