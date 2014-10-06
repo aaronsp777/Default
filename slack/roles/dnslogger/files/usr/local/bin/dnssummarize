@@ -1,0 +1,30 @@
+#!/usr/bin/ruby
+
+OUTPUTDIR="/var/dnslogger"
+
+def readlog(client)
+  date = Time.now.strftime("%Y-%m-%d")
+  filename = "%s/%s/%s" % [OUTPUTDIR, date, client]
+  File.open(filename, "r") do |f|
+    f.each_line { |l| yield l }
+  end
+end
+
+$domaincount = Hash.new { |h,k| h[k]=0}
+
+def parse_line(line)
+  time, pkgtype, src, arrow, dest, num, q, subject, cnt = line.split
+  dest.gsub!(/:$/, '')
+  if /\+$/.match(num)
+    # request
+    $domaincount[subject]+=1
+  end
+end
+
+readlog("192.168.7.38") do |line|
+  parse_line(line)
+end
+
+$domaincount.keys.sort.each do |domain|
+  puts domain + " " + $domaincount[domain].to_s 
+end
