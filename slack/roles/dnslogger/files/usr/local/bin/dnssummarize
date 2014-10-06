@@ -1,30 +1,57 @@
 #!/usr/bin/ruby
 
-OUTPUTDIR="/var/dnslogger"
-
-def readlog(client)
-  date = Time.now.strftime("%Y-%m-%d")
-  filename = "%s/%s/%s" % [OUTPUTDIR, date, client]
-  File.open(filename, "r") do |f|
-    f.each_line { |l| yield l }
+class Domain
+  attr_accessor :name # string
+  attr_accessor :count # int
+  attr_accessor :subdomains  # recursive hash
+  def initialize(name)
+    @name = name
+    @count = 0
+    @subdomains = Hash.new { |h,k| h[k] = Domain.new(k) }
   end
+
+  def add(subdomain = nil)
+    if not subdomain.nil? 
+      subdomains[subdomain].add
+    end
+    @count += 1
+  end
+
+  def to_s
+    @subdomains.values.sort_by { |d| -d.count }.map do |d|
+      "#{d.name}(#{d.count})"
+    end.join(' ')
+  end
+
 end
 
-$domaincount = Hash.new { |h,k| h[k]=0}
+$top = Hash.new { |h,k| h[k] = Domain.new(k) }
+
+def parse_sub_domain(domain)
+  l = domain.split('.')
+  if l.length <= 2
+    return nil, domain
+  end
+  if ['com','org','net','int','edu','gov','mil'].include? l[-1]
+    return l[0..-3].join('.'), l[-2..-1].join('.')
+  end
+end
 
 def parse_line(line)
   time, pkgtype, src, arrow, dest, num, q, subject, cnt = line.split
   dest.gsub!(/:$/, '')
-  if /\+$/.match(num)
-    # request
-    $domaincount[subject]+=1
+  if /\+$/.match(num) # request
+    sub, main = parse_sub_domain(subject)
+    $top[main].add(sub)
   end
 end
 
-readlog("192.168.7.38") do |line|
-  parse_line(line)
+ARGV.each do |fn|
+  File.open(fn, 'r') do |f|
+    f.each_line { |l| parse_line(l) }
+  end
 end
 
-$domaincount.keys.sort.each do |domain|
-  puts domain + " " + $domaincount[domain].to_s 
+$top.values.sort_by { |d| -d.count }.each do |d|
+  puts "#{d.name}(#{d.count}): #{d}"
 end
