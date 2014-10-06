@@ -3,10 +3,11 @@
 OUTPUTDIR="/var/dnslogger"
 
 def log(client, line)
-  date = Time.now.strftime("%y-%m-%d")
+  date = Time.now.strftime("%Y-%m-%d")
+  dirname = "%s/%s" % [OUTPUTDIR, date]
   filename = "%s/%s/%s" % [OUTPUTDIR, date, client]
-  if !File.exists?(filename)
-    Dir.mkdir("%s/%s" % [OUTPUTDIR, date])
+  if !Dir.exists?(dirname)
+    Dir.mkdir(dirname)
   end
   File.open(client, "a") do |f|
     f.puts(line)
