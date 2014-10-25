@@ -19,7 +19,7 @@ class Domain
 
   def to_s
     @subdomains.values.sort_by { |d| -d.count }.map do |d|
-      "#{d.name}(#{d.count})"
+      d.count > 1 ? "#{d.name}(#{d.count})" : ""
     end.join(' ')
   end
 
@@ -53,5 +53,7 @@ ARGV.each do |fn|
 end
 
 $top.values.sort_by { |d| -d.count }.each do |d|
-  puts "#{d.name}(#{d.count}): #{d}"
+  if d.count > 1
+    puts "#{d.name}(#{d.count}): #{d}"
+  end
 end
