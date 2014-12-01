@@ -1,0 +1,8 @@
+#!/bin/sh
+zip="$1"
+if [ -z "${zip}" ];then
+  echo "usage: $0 <zipcode>"
+  exit 1
+fi
+echo "Address\tCall Sign\tName\tLink"
+awk -F'|' '$19~/^'${zip}'/{OFS="\t"; print $16","$17","$18","$19, $5, $8, "http://wireless2.fcc.gov/UlsApp/UlsSearch/license.jsp?licKey="$2}' < EN.dat | sort
