@@ -1,8 +1,58 @@
-#!/bin/sh
-zip="$1"
-if [ -z "${zip}" ];then
-  echo "usage: $0 <zipcode>"
+#!/usr/bin/ruby
+
+if ARGV.length != 1 then
+  echo "Usage: extract_by_zip <zipcode>" 
   exit 1
-fi
-echo "Address\tCall Sign\tName\tLink"
-awk -F'|' '$19~/^'${zip}'/{OFS="\t"; print $16","$17","$18","$19, $5, $8, "http://wireless2.fcc.gov/UlsApp/UlsSearch/license.jsp?licKey="$2}' < EN.dat | sort
+end
+zip = ARGV[0]
+
+# Read license status for everyone
+@status = {}
+f=File.read('HD.dat')
+f.encode!('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
+f.split("\r\n").each do |line|
+ r=line.split('|')
+ @status[r[1]]=r[5] 
+end
+
+@class = {}
+f=File.read('AM.dat')
+f.encode!('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
+f.split("\r\n").each do |line|
+ r=line.split('|')
+ @class[r[1]]=r[5] 
+end
+
+@status_map = {'A'=> 'ACTIVE', 'E' => 'EXPIRED', 'C' => 'CANCELLED', 'T' => 'TERMINATED'}
+@status_map.default= '?'
+@class_map = {'E'=> 'extra', 'T' => 'technician', 'G' => 'general', 'A' => 'advanced', 'P' => 'technican+', 'N'=> 'novice'}
+@class_map.default= '?'
+def get_status(k)
+  status = @status[k]
+  if status != 'A'
+    return @status_map[status]
+  end
+  return @class_map[@class[k]]
+end
+
+@records=[]
+pat = /^#{zip}/
+f=File.read('EN.dat')
+f.encode!('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
+f.split("\r\n").each do |line|
+ r=line.split('|')
+ if pat.match(r[18])
+   licKey=r[1]
+   address = [r[15],r[16],r[17],r[18]].join(',')
+   callSign=r[4]
+   name=r[7]
+   link='http://wireless2.fcc.gov/UlsApp/UlsSearch/license.jsp?licKey=' + licKey
+   status=get_status(licKey)
+   @records <<  [address,callSign,status,name,link].join("\t")
+ end
+end
+
+puts ['Address','Call Sign','Status','Name','Link'].join("\t")
+@records.sort.each do |r|
+  puts r
+end
