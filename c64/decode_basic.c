@@ -19,18 +19,18 @@ int readpair() {
 }
 
 void decode_basic() {
-  unsigned int c;
   
   readpair(); // load address
 
   while(1) {
+    int inside_quotes = 0;
     if (!readpair())
       return;
 
     printf("%d ", readpair());  // Line number
 
     while(1) {
-      c = getchar();
+      unsigned int c = getchar();
       if (c == EOF) {
         return;  // stream broken
       }
@@ -38,7 +38,10 @@ void decode_basic() {
         printf("\n");
         break;
       }
-      if (c >= 0x80 && c < 0xcc) {
+      if (c == '"') {
+        inside_quotes = !inside_quotes;
+      }
+      if (c >= 0x80 && c < 0xcc && !inside_quotes) {
         printf("%s", tokens[c - 0x80]);
       } else {
         printf("%c", c);
