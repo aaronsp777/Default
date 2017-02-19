@@ -127,6 +127,22 @@ char *filebits(uchar type) {
   return " ";
 }
 
+// Calculate exact file size by reading entire file.
+// Fast since its all in ram.
+int file_size(char *d, int track, int sector) {
+  int size = 0;
+  char *b = BLOCK(d, track, sector);
+  while (b) {
+    if (b[0]) {
+      size += 254;
+    } else {
+      size += (unsigned char)b[1];
+    }
+    b = nextblock(d, b);
+  }
+  return size;
+}
+
 void lsdir(char *d, char *b) {
   struct dir_entry *e;
   char fn[19]; // Includes null & quotes
@@ -141,8 +157,9 @@ void lsdir(char *d, char *b) {
         int size = e->file_size_low + 256*e->file_size_high;
         trim(&fn[1], e->filename, sizeof(fn)-2);
         strcat(fn, "\"");
-        printf("%-4d %-18s %s%s (%d,%d)\n",
-            size, fn, filetype(e->type), filebits(e->type), e->track, e->sector);
+        printf("%-4d %-18s %s%s (%d,%d) [%d bytes]\n",
+            size, fn, filetype(e->type), filebits(e->type), e->track, e->sector,
+            file_size(d, e->track, e->sector));
       }
     }
     b = nextblock(d, b);
@@ -159,6 +176,7 @@ int compute_blocks_free(char *bam) {
   return count;
 }
 
+// Extracts a file (PRG, SEQ) byte-by-byte to stdout.
 void read_file(char *d, int track, int sector) {
   char *b = BLOCK(d, track, sector);
   while (b) {
