@@ -1,0 +1,38 @@
+
+1541-demo0.d64 : Commodore 1541 Test Demo Disk
+read1541.c : Read directory and extract a file (by track/sector)
+decode_basic.c : List a byte-extracted vic20/c64 program and list it.
+
+Example:
+
+List directory
+$ ./read1541
+0 "1541TEST/DEMO"    ZX 2A
+13   "HOW TO USE"       PRG  (17,0)
+5    "HOW PART TWO"     PRG  (17,3)
+4    "VIC-20 WEDGE"     PRG  (17,9)
+1    "C-64 WEDGE"       PRG  (19,0)
+4    "DOS 5.1"          PRG  (19,1)
+11   "COPY/ALL"         PRG  (19,3)
+9    "PRINTER TEST"     PRG  (19,9)
+4    "DISK ADDR CHANGE" PRG  (16,0)
+4    "DIR"              PRG  (16,1)
+6    "VIEW BAM"         PRG  (16,3)
+4    "CHECK DISK"       PRG  (16,7)
+14   "DISPLAY T&S"      PRG  (16,15)
+9    "PERFORMANCE TEST" PRG  (20,2)
+5    "SEQUENTIAL FILE"  PRG  (20,7)
+13   "RANDOM FILE"      PRG  (15,1)
+558 BLOCKS FREE.
+
+Extract & decode a program (track 17 sector 9)
+$ ./read1541 17 9 | ./decode_basic
+10 PRINT"LOAD"TAB(6)"VIC WEDGE
+20 PRINT"   BY DAVID A. HOOK
+30 PRINT">         DISK STATUS
+40 PRINT"@         OR COMMANDS
+50 PRINT">$0         DIRECTORY
+60 PRINT"@$0
+70 PRINT"/FILENAME        LOAD
+80 SYS(PEEK(43)+256*PEEK(44)+215)
+90 NEW
