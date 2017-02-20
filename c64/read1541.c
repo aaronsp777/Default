@@ -162,10 +162,7 @@ void lsdir(char *d, char *b) {
   fn[0]= '"';
   while (b) {
     for (int i=0; i<BLK_SIZE; i+=sizeof(*e)) {
-      #pragma GCC diagnostic push
-      #pragma GCC diagnostic ignored "-Wincompatible-pointer-types"
-      e = (struct direntry*)(&b[i]);
-      #pragma GCC diagnostic pop
+      e = (struct dir_entry*)(&b[i]);
       if (e->type) {
         int size = e->file_size_low + 256*e->file_size_high;
         trim(&fn[1], e->filename, sizeof(fn)-2);
