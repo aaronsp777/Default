@@ -7,10 +7,17 @@
 #include <ctype.h>
 #include <stdlib.h>
 
+#ifdef D1581
+#define MAX_BLOCKS 3200
+#define BLK_SIZE 256
+#define DIR_TRACK 40
+#define TRACKS 80
+#else
 #define MAX_BLOCKS 683
 #define BLK_SIZE 256
 #define DIR_TRACK 18
 #define TRACKS 35
+#endif
 
 char *load_disk(const char *filename) {
   int fd = open(filename, O_RDONLY);
@@ -24,6 +31,10 @@ char *load_disk(const char *filename) {
 char *BLOCK(char *disk, int track, int sector) {
   //printf("Reading (%d,%d) ", track, sector);
   assert(track >= 1 && track <= TRACKS);
+#ifdef D1581
+  assert(sector >= 0 && sector <= 39);
+  int block = track * 40 - 40;
+#else
   assert(sector >= 0);
   int block;
   if (track >=1 && track <= 17) {
@@ -39,6 +50,7 @@ char *BLOCK(char *disk, int track, int sector) {
     assert(sector < 17);
     block = 17 * track + 71;
   }
+#endif
   char *r = &disk[(block + sector) * BLK_SIZE];
   //printf("(offset 0x%lx)\n", r - disk);
   return r;
@@ -116,6 +128,7 @@ char *filetype(uchar type) {
     case 2: return "PRG";
     case 3: return "USR";
     case 4: return "REL";
+    case 5: return "CBM";
   }
   return "???";
 }
@@ -166,15 +179,28 @@ void lsdir(char *d, char *b) {
   }
 }
 
+#ifdef D1581
+int compute_blocks_free(char *bam) {
+  int count = 0;
+  for (int track = 1; track <= TRACKS/2; track++) {
+    if (track != DIR_TRACK) {  // directory track
+      count+=(unsigned char)bam[track*6+10+256];
+    }
+    count+=(unsigned char)bam[track*6+10+512];
+  }
+  return count;
+}
+#else
 int compute_blocks_free(char *bam) {
   int count = 0;
   for (int track = 1; track <= TRACKS; track++) {
     if (track != DIR_TRACK) {  // directory track
-      count+=bam[track*4];
+      count+=(unsigned char)bam[track*4];
     }
   }
   return count;
 }
+#endif
 
 // Extracts a file (PRG, SEQ) byte-by-byte to stdout.
 void read_file(char *d, int track, int sector) {
@@ -190,7 +216,11 @@ void read_file(char *d, int track, int sector) {
 }
 
 int main(int argc, char* argv[]) {
+#ifdef D1581
+  const char filename[] = "1581-utility-v02.d81";
+#else
   const char filename[] = "1541-demo0.d64";
+#endif
 
   char *d = load_disk(filename);
 
@@ -199,20 +229,32 @@ int main(int argc, char* argv[]) {
     return 0;
   }
 
-  char label[17];  // Includes null & quotes
+  char label[19];  // Includes null & quotes
 
   // Read Disk header
   char *b = BLOCK(d, DIR_TRACK, 0);
 
   // Volume label
+#ifdef D1581
+  trim(&label[1], &b[4], sizeof(label)-2);
+  label[0] = '"';
+  strcat(label, "\"");
+  printf("0 %s    %c %c\n", label, b[0x19], b[0x1a]);
+#else
   trim(&label[1], &b[0x90], sizeof(label)-2);
   label[0] = '"';
   strcat(label, "\"");
   printf("0 %s    %2.2s %2.2s\n", label, &b[0xa2], &b[0xa5]);
-  // Directory should begin on 18,1
+#endif
+
   assert(b[0] == DIR_TRACK);
+#ifdef D1581
+  assert(b[1] == 3);
+  assert(b[2] == 'D');
+#else
   assert(b[1] == 1);
   assert(b[2] == 'A');
+#endif
   //hexdump(b);
 
   //write(1, &b[0x90], 16);
