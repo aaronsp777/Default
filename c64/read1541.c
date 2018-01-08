@@ -149,7 +149,7 @@ int file_size(char *d, int track, int sector) {
     if (b[0]) {
       size += 254;
     } else {
-      size += (unsigned char)b[1];
+      size += (unsigned char)b[1]-1;
     }
     b = nextblock(d, b);
   }
@@ -206,7 +206,7 @@ void read_file(char *d, int track, int sector) {
     if (b[0]) {
       write(1, &b[2], 254);
     } else {
-      write(1, &b[2], (unsigned char)b[1]);
+      write(1, &b[2], (unsigned char)b[1]-1);
     }
     b = nextblock(d, b);    
   }
