@@ -32,6 +32,7 @@ void decode_basic() {
     while(1) {
       unsigned int c = getchar();
       if (c == EOF) {
+        fprintf(stderr, "Truncated input\n");
         return;  // stream broken
       }
       if (c == 0) {
