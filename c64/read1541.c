@@ -213,16 +213,16 @@ void read_file(char *d, int track, int sector) {
 }
 
 int main(int argc, char* argv[]) {
-#ifdef D1581
-  const char filename[] = "1581-utility-v02.d81";
-#else
-  const char filename[] = "1541-demo0.d64";
-#endif
 
-  char *d = load_disk(filename);
+  if (argc < 2) {
+    fprintf(stdout, "Usage: %s <disk.d64> [track] [sector]\n", argv[0]);
+    return 1;
+  }
 
-  if (argc == 3) {
-    read_file(d, atoi(argv[1]), atoi(argv[2]));
+  char *d = load_disk(argv[1]);
+
+  if (argc == 4) {
+    read_file(d, atoi(argv[2]), atoi(argv[3]));
     return 0;
   }
 
