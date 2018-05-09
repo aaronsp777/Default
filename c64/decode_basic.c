@@ -7,7 +7,7 @@ char *tokens[] = {
   "WAIT", "LOAD", "SAVE", "VERIFY", "DEF", "POKE", "PRINT#", "PRINT", "CONT",
   "LIST", "CLR", "CMD", "SYS", "OPEN", "CLOSE", "GET", "NEW", "TAB(", "TO",
   "FN", "SPC(", "THEN", "NOT", "STEP", "+", "-", "*", "/", "^", "AND", "OR",
-  "<", "=", ">", "SGN", "INT", "ABS", "USR", "FRE", "POS", "SQR", "RND", "LOG",
+  ">", "=", "<", "SGN", "INT", "ABS", "USR", "FRE", "POS", "SQR", "RND", "LOG",
   "EXP", "COS", "SIN", "TAN", "ATN", "PEEK", "LEN", "STR$", "VAL", "ASC",
   "CHR$", "LEFT$", "RIGHT$", "MID$", "GO"
 };
